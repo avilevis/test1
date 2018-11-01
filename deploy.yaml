@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: aviapp
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: aviapp
+    spec:
+      containers:
+      - name: aviapp
+        image: ecr.vip.ebayc3.com/avilevi/test1:latest
+        ports:
+        - containerPort: 80

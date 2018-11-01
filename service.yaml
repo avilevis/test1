@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: aviapp-ns
+  name: aviapp-dp
+  annotations:
+    application.tess.io/name: aviapp
+  labels:
+    app: aviapp
+spec:
+  revisionHistoryLimit: 3
+  strategy:
+    type: Recreate
+  replicas: 2
+  selector:
+    matchLabels:
+      app: aviapp
+  template:
+    metadata:
+      namespace: aviapp-ns
+      annotations:
+        application.tess.io/name: aviapp
+      labels:
+        app: aviapp
+    spec:
+      imagePullSecrets:
+      - name: avilevi-jenkinsbot-pull-secret
+      containers:
+      - name: aviapp
+        image: ecr.vip.ebayc3.com/avilevi/test1:v4
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    application.tess.io/name: aviapp
+  labels:
+    name: aviapp
+  name: aviapp
+spec:
+  ports:
+  # The port that this service should serve on.
+  - port: 80
+    targetPort: 3000
+  # Label keys and values that must match in order to receive traffic for this service.
+  selector:
+    app: aviapp
+  type: LoadBalancer

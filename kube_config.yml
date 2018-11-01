@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Config
+preferences: {}
+
+clusters:
+- cluster:
+    name: 33
+    namespace: aviapp-ns
+    server: https://api.system.svc.33.tess.io
+
+users:
+- name: avilevi
+
+contexts:
+- context:
+    cluster: 33
+    name: dev
+    namespace: aviapp-ns
+current-context: dev
